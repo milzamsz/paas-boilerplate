@@ -29,5 +29,6 @@ LICENSE
 .env
 .env.*
 !.env.example
+!apps/web/.env.local
 
 
