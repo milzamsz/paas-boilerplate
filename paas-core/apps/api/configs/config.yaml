@@ -1,0 +1,69 @@
+app:
+  name: "PaaS Core API"
+  version: "1.0.0"
+  environment: "development"
+  debug: true
+
+database:
+  host: "localhost"
+  port: 5432
+  user: "postgres"
+  password: "postgres"
+  name: "paas_core"
+  sslmode: "disable"
+
+jwt:
+  secret: "change-me-in-production"
+  access_token_ttl: "15m"
+  refresh_token_ttl: "168h"
+
+server:
+  port: "8080"
+  readtimeout: 15
+  writetimeout: 15
+  idletimeout: 60
+  shutdowntimeout: 30
+  maxheaderbytes: 1048576
+
+logging:
+  level: "info"
+
+ratelimit:
+  enabled: true
+  requests: 100
+  window: "1m"
+
+migrations:
+  directory: "migrations"
+  timeout: 30
+  locktimeout: 15
+
+health:
+  timeout: 5
+  database_check_enabled: true
+
+xendit:
+  secret_key: ""
+  webhook_token: ""
+  callback_url: ""
+
+cors:
+  allowed_origins:
+    - "http://localhost:3000"
+    - "http://localhost:8080"
+  allowed_methods:
+    - "GET"
+    - "POST"
+    - "PUT"
+    - "PATCH"
+    - "DELETE"
+    - "OPTIONS"
+  allowed_headers:
+    - "Origin"
+    - "Content-Type"
+    - "Accept"
+    - "Authorization"
+    - "X-Request-ID"
+    - "X-CSRF-Token"
+  allow_credentials: true
+  max_age: 300

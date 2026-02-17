@@ -1,0 +1,59 @@
+---
+import { siteConfig } from '../data/site';
+import '../styles/global.css';
+
+interface Props {
+	title?: string;
+}
+
+const { title = siteConfig.name } = Astro.props;
+---
+
+<!doctype html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="description" content={siteConfig.description} />
+		<meta name="viewport" content="width=device-width" />
+		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+		<meta name="generator" content={Astro.generator} />
+		<title>{title}</title>
+	</head>
+	<body class="bg-slate-50 text-slate-900 antialiased font-sans">
+		<div class="flex min-h-screen flex-col">
+			<header class="sticky top-0 z-50 w-full border-b bg-white/95 backdrop-blur supports-[backdrop-filter]:bg-white/60">
+				<div class="container flex h-14 items-center mx-auto px-4">
+					<a href="/" class="mr-6 flex items-center space-x-2">
+						<span class="font-bold text-xl">{siteConfig.name}</span>
+					</a>
+					<nav class="flex items-center space-x-6 text-sm font-medium">
+						{siteConfig.nav.map((item) => (
+							<a href={item.href} class="transition-colors hover:text-slate-900/80 text-slate-900/60">
+								{item.label}
+							</a>
+						))}
+					</nav>
+					<div class="ml-auto flex items-center space-x-4">
+						<a href="/login" class="text-sm font-medium text-slate-900 hover:underline">
+							Login
+						</a>
+						<a href="/signup" class="inline-flex h-9 items-center justify-center rounded-md bg-slate-900 px-4 py-2 text-sm font-medium text-slate-50 shadow transition-colors hover:bg-slate-900/90 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-slate-950 disabled:pointer-events-none disabled:opacity-50">
+							Get Started
+						</a>
+					</div>
+				</div>
+			</header>
+			<main class="flex-1">
+				<slot />
+			</main>
+			<footer class="py-6 md:px-8 md:py-0 border-t bg-white">
+				<div class="container flex flex-col items-center justify-between gap-4 md:h-24 md:flex-row mx-auto px-4">
+					<p class="text-center text-sm leading-loose text-slate-600 md:text-left">
+						Built by <a href="#" class="font-medium underline underline-offset-4">MyPaaS</a>.
+						The source code is available on <a href="#" class="font-medium underline underline-offset-4">GitHub</a>.
+					</p>
+				</div>
+			</footer>
+		</div>
+	</body>
+</html>

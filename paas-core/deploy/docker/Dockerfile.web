@@ -1,0 +1,18 @@
+# paas-core — Web (Next.js)
+
+FROM node:20-alpine AS web-builder
+WORKDIR /build
+COPY apps/web/package.json apps/web/package-lock.json ./
+RUN npm ci
+COPY apps/web/ .
+RUN npm run build
+
+FROM node:20-alpine AS web
+WORKDIR /app
+COPY --from=web-builder /build/.next/standalone ./
+COPY --from=web-builder /build/.next/static ./.next/static
+COPY --from=web-builder /build/public ./public
+EXPOSE 3000
+ENV PORT=3000
+ENV HOSTNAME="0.0.0.0"
+CMD ["node", "server.js"]

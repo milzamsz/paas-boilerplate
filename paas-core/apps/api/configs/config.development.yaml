@@ -1,0 +1,9 @@
+# Development-specific overrides (merged on top of config.yaml)
+app:
+  debug: true
+
+logging:
+  level: "debug"
+
+ratelimit:
+  enabled: false

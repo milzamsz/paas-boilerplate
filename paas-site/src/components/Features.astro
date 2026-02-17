@@ -1,0 +1,35 @@
+---
+import { siteConfig } from '../data/site';
+import * as Icons from 'lucide-react';
+
+// Helper to render icon dynamically
+---
+
+<section id="features" class="py-20 bg-slate-50">
+  <div class="container mx-auto px-4">
+    <div class="text-center mb-16">
+      <h2 class="text-3xl font-bold tracking-tight text-slate-900 sm:text-4xl">
+        Everything you need to ship faster
+      </h2>
+      <p class="mt-4 text-lg text-slate-600">
+        Our platform provides all the building blocks you need to build a world-class SaaS.
+      </p>
+    </div>
+    
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+      {siteConfig.features.map((feature) => {
+        const Icon = (Icons as any)[feature.icon];
+        return (
+          <div class="bg-white p-6 rounded-lg shadow-sm border border-slate-200 hover:shadow-md transition-shadow">
+            <div class="h-12 w-12 rounded-lg bg-indigo-100 flex items-center justify-center text-indigo-600 mb-4">
+              {/* Render Lucide icon */}
+              {Icon && <Icon className="h-6 w-6" />}
+            </div>
+            <h3 class="text-lg font-semibold text-slate-900 mb-2">{feature.title}</h3>
+            <p class="text-slate-600">{feature.description}</p>
+          </div>
+        );
+      })}
+    </div>
+  </div>
+</section>

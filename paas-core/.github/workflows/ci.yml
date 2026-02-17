@@ -1,0 +1,85 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  api:
+    name: API (Go)
+    runs-on: ubuntu-latest
+    if: |
+      github.event_name == 'push' ||
+      contains(join(github.event.pull_request.changed_files.*.filename, ','), 'apps/api/')
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-go@v5
+        with:
+          go-version: '1.22'
+          cache-dependency-path: apps/api/go.sum
+
+      - name: Download dependencies
+        run: cd apps/api && go mod download
+
+      - name: Vet
+        run: cd apps/api && go vet ./...
+
+      - name: Test
+        run: cd apps/api && go test ./... -v -race
+
+      - name: Build
+        run: cd apps/api && go build -o /dev/null ./cmd/server
+
+  web:
+    name: Dashboard (Next.js)
+    runs-on: ubuntu-latest
+    if: |
+      github.event_name == 'push' ||
+      contains(join(github.event.pull_request.changed_files.*.filename, ','), 'apps/web/') ||
+      contains(join(github.event.pull_request.changed_files.*.filename, ','), 'packages/')
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 9
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'pnpm'
+          cache-dependency-path: apps/web/pnpm-lock.yaml
+
+      - name: Install dependencies
+        run: cd apps/web && pnpm install --frozen-lockfile
+
+      - name: Lint
+        run: cd apps/web && pnpm lint
+
+      - name: Build
+        run: cd apps/web && pnpm build
+        env:
+          NEXT_PUBLIC_API_URL: http://localhost:8080
+
+  docker:
+    name: Docker Build
+    runs-on: ubuntu-latest
+    needs: [api, web]
+    if: github.ref == 'refs/heads/main'
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Build API image
+        run: docker build -f deploy/docker/Dockerfile.api -t paas-api:${{ github.sha }} .
+
+      - name: Build Web image
+        run: docker build -f deploy/docker/Dockerfile.web -t paas-web:${{ github.sha }} .
+
+      # [TODO] Push to container registry
+      # - name: Push images
+      #   run: |
+      #     docker push ghcr.io/myorg/paas-api:${{ github.sha }}
+      #     docker push ghcr.io/myorg/paas-web:${{ github.sha }}

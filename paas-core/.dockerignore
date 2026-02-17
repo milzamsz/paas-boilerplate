@@ -1,0 +1,33 @@
+# Version control
+.git
+.gitignore
+
+# Dependencies (rebuilt in Docker)
+apps/web/node_modules
+apps/api/vendor
+
+# Build outputs
+apps/web/.next
+apps/web/out
+
+# IDE / OS
+.vscode
+.idea
+*.swp
+*.swo
+.DS_Store
+Thumbs.db
+
+# Docker
+deploy/docker/docker-compose.yml
+
+# Docs (not needed for build)
+*.md
+LICENSE
+
+# Environment files
+.env
+.env.*
+!.env.example
+
+

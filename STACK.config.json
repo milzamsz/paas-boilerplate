@@ -1,0 +1,15 @@
+{
+  "PRODUCT_NAME": "MyPaaS",
+  "ORG_NAME": "myorg",
+  "ROOT_DOMAIN": "example.com",
+  "SUBDOMAIN_APP": "app",
+  "SUBDOMAIN_API": "api",
+  "SUBDOMAIN_DOCS": "docs",
+  "SUBDOMAIN_SITE": "",
+  "DEPLOY_TARGET": "docker",
+  "TENANCY_MODE": "path",
+  "AUTH_MODE": "jwt",
+  "DB": "postgres",
+  "REDIS_ENABLED": false,
+  "OPENAPI_SYNC": "release-asset"
+}

@@ -1,0 +1,15 @@
+{
+    "name": "@paas/api-client",
+    "version": "0.1.0",
+    "private": true,
+    "scripts": {
+        "generate": "orval --config orval.config.ts"
+    },
+    "devDependencies": {
+        "orval": "^7.3.0",
+        "typescript": "^5.6.0"
+    },
+    "dependencies": {
+        "axios": "^1.7.0"
+    }
+}
